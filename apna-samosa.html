@@ -1,0 +1,1271 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Apna Samosa — Jamui</title>
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;600;700;800;900&family=Noto+Sans+Devanagari:wght@400;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --fire:#FF6A00; --saffron:#FF8C00; --gold:#FFA500; --cream:#0A0A0A;
+  --deep:#000000; --brown:#111111; --green:#1B6B3A; --red:#C0392B;
+  --light:#1A1A1A; --chat:#0D0D0D; --purple:#6C3483;
+  --card:#141414; --border:#2A2A2A; --text:#EEEEEE; --subtext:#888888;
+  --r:16px;
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{font-family:'Baloo 2',cursive;background:var(--cream);min-height:100vh;overflow-x:hidden;color:var(--text);}
+
+/* NAV */
+.nav{display:flex;background:var(--deep);position:sticky;top:0;z-index:300;box-shadow:0 4px 20px rgba(0,0,0,0.6);}
+.nb{flex:1;padding:8px 2px;background:none;border:none;color:#555;font-family:'Baloo 2',cursive;font-size:10px;font-weight:700;cursor:pointer;transition:all .3s;border-bottom:3px solid transparent;display:flex;flex-direction:column;align-items:center;gap:1px;}
+.nb i{font-size:18px;font-style:normal;}
+.nb.active{color:var(--gold);border-bottom-color:var(--fire);}
+.page{display:none;min-height:calc(100vh - 52px);padding-bottom:20px;}
+.page.active{display:block;}
+
+/* HERO */
+.hero{background:#000;padding:0 0 20px;text-align:center;position:relative;overflow:hidden;}
+.hero-img-wrap{width:100%;height:200px;overflow:hidden;position:relative;}
+.hero-img-wrap::after{content:'';position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,0.1) 0%,rgba(0,0,0,0.85) 100%);}
+.hero-img{width:100%;height:100%;object-fit:cover;display:block;}
+.hero-content{position:relative;z-index:1;padding:0 16px;}
+.flame{font-size:42px;display:block;animation:flicker 1.8s infinite alternate;margin-top:-30px;position:relative;z-index:2;}
+@keyframes flicker{0%{transform:scale(1) rotate(-2deg)}100%{transform:scale(1.1) rotate(2deg)}}
+.hero h1{font-size:30px;font-weight:900;color:#fff;text-shadow:0 0 20px rgba(255,106,0,0.8);position:relative;z-index:1;background:linear-gradient(to right,#FF6A00,#FFA500);-webkit-background-clip:text;-webkit-text-fill-color:transparent;}
+.hero-sub{color:#FF8C00;font-size:12px;margin-top:3px;font-weight:600;position:relative;z-index:1;}
+.hero-addr{color:#555;font-size:11px;margin-top:4px;position:relative;z-index:1;}
+.timing-badge{display:inline-flex;align-items:center;gap:6px;background:rgba(255,106,0,0.15);border:1px solid rgba(255,106,0,0.4);color:var(--gold);padding:5px 14px;border-radius:20px;font-size:12px;font-weight:700;margin-top:10px;position:relative;z-index:1;}
+.open-dot{width:8px;height:8px;border-radius:50%;animation:blink 1s infinite;}
+.open-dot.open{background:#4CAF50;}
+.open-dot.closed{background:#f44336;}
+@keyframes blink{0%,100%{opacity:1}50%{opacity:.3}}
+
+/* WEATHER BANNER */
+.weather-banner{padding:10px 16px;display:flex;align-items:center;gap:10px;font-size:13px;font-weight:600;border-bottom:1px solid #222;background:#111;}
+
+/* LOYALTY */
+.loyalty-card{background:#141414;margin:12px 16px;border-radius:14px;padding:14px 16px;box-shadow:0 2px 12px rgba(255,106,0,.1);border:1px solid #2A2A2A;}
+.loy-top{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+.loy-pts{font-size:26px;font-weight:900;color:var(--fire);}
+.loy-label{font-size:11px;color:#666;}
+.loy-next{font-size:12px;color:#aaa;font-weight:600;}
+.prog-bar{height:10px;background:#222;border-radius:5px;overflow:hidden;}
+.prog-fill{height:100%;background:linear-gradient(to right,var(--fire),var(--gold));border-radius:5px;transition:width .6s ease;}
+.reward-chips{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap;}
+.reward-chip{background:#1E1E1E;border:1.5px solid #FF8C00;border-radius:20px;padding:4px 12px;font-size:11px;font-weight:700;color:#FF8C00;}
+.reward-chip.earned{background:var(--gold);color:#000;}
+
+/* SECTION */
+.sec{padding:14px 16px;}
+.sec-title{font-size:15px;font-weight:800;color:#fff;margin-bottom:10px;display:flex;align-items:center;gap:8px;}
+.sec-title::after{content:'';flex:1;height:2px;background:linear-gradient(to right,var(--fire),transparent);}
+
+/* MENU ITEM */
+.mitem{background:#141414;border-radius:12px;padding:11px 13px;display:flex;align-items:center;gap:10px;margin-bottom:8px;box-shadow:0 2px 8px rgba(0,0,0,.3);border:1px solid #222;transition:all .2s;}
+.mitem:hover{border-color:var(--fire);box-shadow:0 0 12px rgba(255,106,0,.2);}
+.mitem.unavail{opacity:.4;}
+.item-em{font-size:30px;}
+.item-inf{flex:1;}
+.item-nm{font-size:13px;font-weight:700;color:#eee;}
+.item-pr{font-size:14px;font-weight:900;color:var(--fire);}
+.item-pt{font-size:10px;color:#4CAF50;font-weight:700;}
+.qc{display:flex;align-items:center;gap:6px;}
+.qb{width:28px;height:28px;border-radius:50%;border:2px solid var(--fire);background:#000;color:var(--fire);font-size:15px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .2s;line-height:1;}
+.qb:hover{background:var(--fire);color:#fff;}
+.qn{font-size:14px;font-weight:800;color:#fff;min-width:16px;text-align:center;}
+
+/* CART */
+.cart-box{background:#141414;border-radius:14px;padding:14px;margin-bottom:12px;border:1px dashed #FF6A00;}
+.cart-empty{text-align:center;color:#444;font-size:13px;padding:6px;}
+.cart-row{display:flex;justify-content:space-between;font-size:13px;color:#ccc;margin-bottom:4px;}
+.cart-total{display:flex;justify-content:space-between;font-size:16px;font-weight:900;color:var(--fire);border-top:1px solid #2A2A2A;padding-top:8px;margin-top:6px;}
+
+/* FORM */
+.finput{width:100%;padding:11px 13px;border:1px solid #2A2A2A;border-radius:10px;font-family:'Baloo 2',cursive;font-size:14px;color:#eee;outline:none;transition:border-color .2s;background:#141414;}
+.finput:focus{border-color:var(--fire);}
+.flabel{display:block;font-size:12px;font-weight:700;color:#aaa;margin-bottom:5px;}
+.fg{margin-bottom:12px;}
+.ftoggle{display:flex;gap:8px;margin-bottom:12px;}
+.ftog-btn{flex:1;padding:10px;border:1px solid #2A2A2A;border-radius:10px;background:#141414;font-family:'Baloo 2',cursive;font-size:13px;font-weight:700;color:#555;cursor:pointer;transition:all .2s;}
+.ftog-btn.active{border-color:var(--fire);color:var(--fire);background:#1A0A00;}
+
+/* BUTTONS */
+.btn-main{width:100%;padding:15px;background:linear-gradient(135deg,var(--fire),#FF8C00);color:#fff;border:none;border-radius:12px;font-family:'Baloo 2',cursive;font-size:16px;font-weight:800;cursor:pointer;box-shadow:0 4px 20px rgba(255,106,0,.4);transition:all .2s;}
+.btn-main:hover{transform:translateY(-2px);box-shadow:0 6px 25px rgba(255,106,0,.5);}
+.btn-main:disabled{background:#222;box-shadow:none;transform:none;cursor:not-allowed;color:#555;}
+.btn-green{background:var(--green);width:100%;padding:14px;border:none;border-radius:12px;font-family:'Baloo 2',cursive;font-size:15px;font-weight:800;color:#fff;cursor:pointer;}
+.btn-ghost{width:100%;padding:11px;background:none;border:1px solid #2A2A2A;border-radius:12px;font-family:'Baloo 2',cursive;font-size:13px;color:#555;cursor:pointer;margin-top:8px;}
+
+/* MODAL */
+.modal-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,.9);z-index:500;align-items:flex-end;justify-content:center;}
+.modal-wrap.show{display:flex;}
+.modal{background:#141414;border-radius:24px 24px 0 0;padding:24px 18px 36px;width:100%;max-width:480px;animation:slideUp .3s ease;border-top:2px solid #2A2A2A;}
+@keyframes slideUp{from{transform:translateY(100%)}to{transform:translateY(0)}}
+.modal-title{font-size:20px;font-weight:800;color:#fff;text-align:center;margin-bottom:4px;}
+.modal-sub{text-align:center;color:#555;font-size:12px;margin-bottom:16px;}
+
+/* PAYMENT BOX */
+.pay-box{background:#1A1A1A;border-radius:14px;padding:16px;text-align:center;margin-bottom:14px;border:1px solid #FF6A00;}
+.pay-amt{display:inline-block;background:linear-gradient(135deg,var(--fire),#FF8C00);color:#fff;padding:6px 20px;border-radius:20px;font-size:20px;font-weight:900;margin-bottom:10px;}
+.pay-qr{width:150px;height:150px;margin:0 auto 10px;border-radius:10px;overflow:hidden;border:3px solid #FF6A00;box-shadow:0 0 20px rgba(255,106,0,.3);}
+.pay-qr img{width:100%;height:100%;object-fit:contain;}
+.pay-upi{font-size:13px;font-weight:800;color:#FF8C00;background:#0A0A0A;padding:6px 14px;border-radius:8px;display:inline-block;margin-top:6px;border:1px solid #2A2A2A;}
+
+/* SCREENSHOT UPLOAD */
+.upload-area{border:1px dashed #FF6A00;border-radius:12px;padding:20px;text-align:center;cursor:pointer;background:#1A1A1A;margin-bottom:14px;transition:all .2s;}
+.upload-area:hover{background:#200E00;}
+.upload-area.has-file{border-color:var(--green);background:#0A1A0A;}
+.upload-icon{font-size:36px;}
+.upload-text{font-size:13px;color:#555;margin-top:6px;}
+#ss-input{display:none;}
+
+/* SUCCESS */
+.success-page{display:none;text-align:center;padding:30px 16px;background:#0A0A0A;min-height:100vh;}
+.success-page.show{display:block;}
+.s-emoji{font-size:72px;animation:pop .5s ease;}
+@keyframes pop{0%{transform:scale(0)}80%{transform:scale(1.2)}100%{transform:scale(1)}}
+.s-title{font-size:24px;font-weight:900;color:#4CAF50;margin:14px 0 6px;}
+.s-msg{font-size:14px;color:#666;line-height:1.6;}
+.ticket{background:#141414;border-radius:14px;padding:16px;margin:16px 0;box-shadow:0 4px 15px rgba(0,0,0,.5);border-top:3px solid var(--fire);text-align:left;}
+.t-row{display:flex;justify-content:space-between;font-size:13px;margin-bottom:7px;}
+.t-row span:first-child{color:#555;}
+.t-row span:last-child{font-weight:700;color:#eee;}
+.token-badge{background:linear-gradient(135deg,var(--fire),#FF8C00);color:#fff;font-size:28px;font-weight:900;padding:8px 24px;border-radius:14px;display:inline-block;margin:10px 0;box-shadow:0 4px 15px rgba(255,106,0,.4);}
+.wa-btn{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:15px;background:#25D366;color:#fff;border:none;border-radius:12px;font-family:'Baloo 2',cursive;font-size:15px;font-weight:800;cursor:pointer;text-decoration:none;}
+
+/* ===== KITCHEN ===== */
+.kitchen-top{background:#000;padding:16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #222;}
+.kitchen-top h2{font-size:18px;font-weight:800;color:#fff;}
+.live-pill{background:var(--red);color:#fff;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:700;display:flex;align-items:center;gap:5px;}
+.live-dot{width:7px;height:7px;background:#fff;border-radius:50%;animation:blink 1s infinite;}
+.stats-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;padding:12px 16px;}
+.stat{background:#141414;border-radius:12px;padding:12px 8px;text-align:center;border:1px solid #222;}
+.stat-n{font-size:26px;font-weight:900;color:var(--fire);line-height:1;}
+.stat-l{font-size:10px;color:#555;margin-top:3px;font-weight:700;}
+.ocard{background:#141414;border-radius:14px;padding:14px;margin:0 16px 10px;border:1px solid #222;border-left:4px solid var(--gold);animation:fadeIn .4s ease;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.ocard.preparing{border-left-color:var(--fire);}
+.ocard.ready{border-left-color:#4CAF50;}
+.ocard.done{border-left-color:#333;opacity:.5;}
+.ocard.pending-verify{border-left-color:var(--purple);}
+.otop{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:8px;}
+.oname{font-size:15px;font-weight:800;color:#eee;}
+.ophone{font-size:11px;color:#555;margin-top:1px;}
+.ostatus{padding:3px 10px;border-radius:20px;font-size:10px;font-weight:700;text-transform:uppercase;}
+.s-verify{background:#2D1B4E;color:#B39DDB;}
+.s-new{background:#2A1F00;color:#FFB300;}
+.s-prep{background:#2A1000;color:#FF8C00;}
+.s-ready{background:#0A2A0A;color:#4CAF50;}
+.s-done{background:#1A1A1A;color:#444;}
+.oitems{font-size:12px;color:#666;margin-bottom:8px;}
+.oitems span{display:inline-block;background:#1E1E1E;padding:2px 8px;border-radius:6px;margin:2px;font-weight:600;color:#aaa;}
+.ofooter{display:flex;justify-content:space-between;align-items:center;}
+.oamt{font-size:14px;font-weight:900;color:var(--fire);}
+.otime{font-size:11px;color:#444;}
+.action-row{display:flex;gap:6px;margin-top:10px;}
+.abtn{flex:1;padding:9px;border:none;border-radius:9px;font-family:'Baloo 2',cursive;font-size:12px;font-weight:700;cursor:pointer;}
+.ab-verify{background:var(--purple);color:#fff;}
+.ab-start{background:var(--fire);color:#fff;}
+.ab-ready{background:var(--green);color:#fff;}
+.ab-done{background:#1A1A1A;color:#444;}
+.delivery-badge{background:var(--red);color:#fff;font-size:10px;padding:2px 8px;border-radius:10px;font-weight:700;margin-left:6px;}
+.ss-preview{width:60px;height:60px;border-radius:8px;object-fit:cover;border:2px solid var(--purple);cursor:pointer;}
+
+/* ===== ANALYTICS ===== */
+.analytics-header{background:#000;padding:16px;color:#fff;border-bottom:1px solid #222;}
+.analytics-header h2{font-size:18px;font-weight:800;}
+.analytics-header p{font-size:12px;color:#555;margin-top:2px;}
+.ana-cards{display:grid;grid-template-columns:repeat(2,1fr);gap:10px;padding:14px 16px;}
+.ana-card{background:#141414;border-radius:14px;padding:16px;border:1px solid #222;}
+.ana-card.full{grid-column:1/-1;}
+.ana-num{font-size:30px;font-weight:900;color:var(--fire);}
+.ana-label{font-size:11px;color:#555;font-weight:700;margin-top:2px;}
+.ana-sub{font-size:12px;color:#4CAF50;font-weight:700;margin-top:4px;}
+.chart-bar-wrap{margin-top:12px;}
+.chart-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.chart-label{font-size:11px;color:#555;width:60px;text-align:right;flex-shrink:0;}
+.chart-bar-bg{flex:1;background:#1A1A1A;border-radius:4px;height:18px;overflow:hidden;}
+.chart-bar-fill{height:100%;background:linear-gradient(to right,var(--fire),var(--gold));border-radius:4px;transition:width .8s ease;}
+.chart-val{font-size:11px;font-weight:700;color:#aaa;width:36px;}
+.top-item{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid #1A1A1A;}
+.top-item:last-child{border:none;}
+.top-rank{font-size:18px;font-weight:900;color:var(--gold);width:24px;}
+.top-name{flex:1;font-size:13px;font-weight:700;color:#eee;}
+.top-cnt{font-size:13px;font-weight:900;color:var(--fire);}
+
+/* ===== ADMIN ===== */
+.admin-lock{text-align:center;padding:60px 20px;background:#0A0A0A;min-height:100vh;}
+.admin-lock h2{font-size:22px;font-weight:800;color:#eee;margin:16px 0 8px;}
+.admin-lock p{font-size:14px;color:#555;margin-bottom:20px;}
+.admin-panel{display:none;}
+.admin-panel.unlocked{display:block;}
+.admin-header{background:#000;padding:14px 16px;display:flex;justify-content:space-between;align-items:center;border-bottom:1px solid #222;}
+.admin-header h2{font-size:17px;font-weight:800;color:#fff;}
+.logout-btn{background:#1A1A1A;border:1px solid #333;color:#666;font-family:'Baloo 2',cursive;font-size:12px;padding:6px 12px;border-radius:8px;cursor:pointer;}
+.admin-sec{padding:14px 16px;}
+.admin-sec h3{font-size:14px;font-weight:800;color:#aaa;margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid #1A1A1A;}
+.edit-item-row{display:flex;align-items:center;gap:8px;background:#141414;border-radius:10px;padding:10px 12px;margin-bottom:8px;border:1px solid #222;}
+.edit-item-row .name{flex:1;font-size:13px;font-weight:700;color:#eee;}
+.edit-price-input{width:70px;padding:6px 8px;border:1px solid #333;border-radius:8px;font-family:'Baloo 2',cursive;font-size:14px;font-weight:800;color:var(--fire);text-align:center;outline:none;background:#0A0A0A;}
+.edit-price-input:focus{border-color:var(--fire);}
+.toggle-sw{position:relative;width:40px;height:22px;background:#222;border-radius:11px;cursor:pointer;transition:background .3s;flex-shrink:0;}
+.toggle-sw.on{background:var(--green);}
+.toggle-sw::after{content:'';position:absolute;width:18px;height:18px;background:#fff;border-radius:50%;top:2px;left:2px;transition:left .3s;}
+.toggle-sw.on::after{left:20px;}
+.save-btn{width:100%;padding:12px;background:linear-gradient(135deg,var(--fire),#FF8C00);color:#fff;border:none;border-radius:10px;font-family:'Baloo 2',cursive;font-size:14px;font-weight:800;cursor:pointer;margin-top:8px;}
+.notice-area{width:100%;padding:10px 12px;border:1px solid #2A2A2A;border-radius:10px;font-family:'Baloo 2',cursive;font-size:13px;color:#eee;outline:none;resize:none;min-height:70px;background:#141414;}
+.notice-area:focus{border-color:var(--fire);}
+.reward-edit-row{display:flex;align-items:center;gap:8px;margin-bottom:10px;font-size:13px;color:#aaa;}
+.reward-edit-row input{width:55px;padding:6px 8px;border:1px solid #333;border-radius:8px;font-family:'Baloo 2',cursive;font-size:14px;font-weight:800;color:var(--fire);text-align:center;outline:none;background:#0A0A0A;}
+.reward-edit-row input:focus{border-color:var(--fire);}
+
+/* NOTICE BANNER */
+.notice-bar{background:linear-gradient(135deg,#1A0A00,var(--fire));color:#fff;padding:10px 16px;font-size:13px;font-weight:600;display:none;}
+.notice-bar.show{display:block;}
+#page-chat{background:var(--chat-bg);}
+.chat-header{background:linear-gradient(135deg,var(--brown),var(--deep));padding:16px;display:flex;align-items:center;gap:12px;}
+.chat-avatar{width:44px;height:44px;border-radius:50%;background:linear-gradient(135deg,var(--saffron),var(--gold));display:flex;align-items:center;justify-content:center;font-size:22px;}
+.chat-info h3{font-size:15px;font-weight:800;color:#fff;}
+.chat-status{font-size:11px;color:#4CAF50;font-weight:600;}
+.chat-msgs{padding:16px;min-height:calc(100vh - 200px);display:flex;flex-direction:column;gap:10px;overflow-y:auto;}
+.msg{max-width:80%;animation:msgIn .3s ease;}
+@keyframes msgIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+.msg.bot{align-self:flex-start;}
+.msg.user{align-self:flex-end;}
+.msg-bubble{padding:10px 14px;border-radius:16px;font-size:14px;line-height:1.5;}
+.msg.bot .msg-bubble{background:#1E1E1E;color:#eee;border-bottom-left-radius:4px;}
+.msg.user .msg-bubble{background:linear-gradient(135deg,var(--saffron),var(--fire));color:#fff;border-bottom-right-radius:4px;}
+.msg-time{font-size:10px;color:#555;margin-top:3px;text-align:right;}
+.msg.bot .msg-time{text-align:left;}
+.typing{display:flex;gap:4px;padding:12px 14px;background:#1E1E1E;border-radius:16px;border-bottom-left-radius:4px;width:fit-content;}
+.typing span{width:6px;height:6px;background:#666;border-radius:50%;animation:type .8s infinite;}
+.typing span:nth-child(2){animation-delay:.2s;}
+.typing span:nth-child(3){animation-delay:.4s;}
+@keyframes type{0%,100%{transform:translateY(0)}50%{transform:translateY(-4px)}}
+.chat-input-area{position:sticky;bottom:0;background:#111;padding:12px 16px;display:flex;gap:8px;border-top:1px solid #222;}
+.chat-input{flex:1;background:#1E1E1E;border:1.5px solid #333;border-radius:24px;padding:10px 16px;color:#fff;font-family:'Baloo 2',cursive;font-size:14px;outline:none;}
+.chat-input:focus{border-color:var(--saffron);}
+.chat-send{width:42px;height:42px;border-radius:50%;background:linear-gradient(135deg,var(--saffron),var(--fire));border:none;color:#fff;font-size:18px;cursor:pointer;display:flex;align-items:center;justify-content:center;}
+.quick-replies{display:flex;gap:6px;padding:0 16px 10px;flex-wrap:wrap;}
+.qr-btn{background:#1A1A1A;border:1.5px solid #333;border-radius:20px;padding:6px 12px;color:#aaa;font-family:'Baloo 2',cursive;font-size:12px;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.qr-btn:hover{border-color:var(--saffron);color:var(--gold);}
+
+/* ===== AI CHATBOT ===== */
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<div class="nav">
+  <button class="nb active" onclick="goPage('order',this)"><i>🛒</i>Order</button>
+  <button class="nb" onclick="goPage('chat',this)"><i>🤖</i>AI Chat</button>
+  <button class="nb" onclick="goPage('kitchen',this)"><i>👨‍🍳</i>Kitchen</button>
+  <button class="nb" onclick="goPage('analytics',this)"><i>📊</i>Report</button>
+  <button class="nb" onclick="goPage('admin',this)"><i>⚙️</i>Admin</button>
+</div>
+
+<!-- ========== ORDER PAGE ========== -->
+<div class="page active" id="page-order">
+  <div id="order-main">
+    <!-- Hero -->
+    <div class="hero">
+      <div class="hero-img-wrap">
+        <img class="hero-img" src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/forty/Samosachutney.jpg/640px-Samosachutney.jpg" 
+          onerror="this.src='';this.parentElement.style.background='linear-gradient(135deg,#1a0a00,#FF6A00)';this.style.display='none';"
+          alt="Garam Samosa">
+      </div>
+      <div class="hero-content">
+        <span class="flame">🫔</span>
+        <h1>Apna Samosa</h1>
+        <div class="hero-sub">Garam Garam • Seedha Tawa Se</div>
+        <div class="hero-addr">📍 Lachhipur, Sajani Tomakey School ke paas, Jamui</div>
+        <div class="timing-badge">
+          <div class="open-dot" id="open-dot"></div>
+          <span id="open-status">Shaam 5:00 - Raat 8:00</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Notice Banner -->
+    <div class="notice-bar" id="notice-bar"></div>
+
+    <!-- Weather Banner -->
+    <div class="weather-banner" id="weather-banner"></div>
+
+    <!-- Loyalty Card -->
+    <div class="loyalty-card" id="loyalty-card" style="display:none;">
+      <div class="loy-top">
+        <div>
+          <div class="loy-pts" id="loy-pts">0</div>
+          <div class="loy-label">Samose khaye</div>
+        </div>
+        <div style="flex:1;margin-left:12px;">
+          <div class="loy-next" id="loy-next"></div>
+          <div class="prog-bar" style="margin-top:6px;">
+            <div class="prog-fill" id="prog-fill" style="width:0%"></div>
+          </div>
+        </div>
+      </div>
+      <div class="reward-chips" id="reward-chips"></div>
+    </div>
+
+    <!-- Samose -->
+    <div class="sec">
+      <div class="sec-title">🫔 Samose</div>
+      <div id="samosa-menu"></div>
+    </div>
+
+    <!-- Cold Drinks -->
+    <div class="sec" style="padding-top:0;">
+      <div class="sec-title">🥤 Cold Drinks</div>
+      <div id="drinks-menu"></div>
+    </div>
+
+    <!-- Order Type -->
+    <div class="sec" style="padding-top:0;">
+      <div class="sec-title">📦 Order Type</div>
+      <div class="ftoggle">
+        <button class="ftog-btn active" id="tog-pickup" onclick="setOrderType('pickup')">🏪 Pickup — Free</button>
+        <button class="ftog-btn" id="tog-delivery" onclick="setOrderType('delivery')">🛵 Delivery — ₹50</button>
+      </div>
+
+      <div id="delivery-fields" style="display:none;">
+        <div class="fg">
+          <label class="flabel">📍 Aapka Address</label>
+          <input class="finput" id="del-address" placeholder="Ghar ka address likhein">
+        </div>
+        <button class="btn-ghost" onclick="getLocation()" style="margin-bottom:10px;border-color:var(--saffron);color:var(--fire);">📡 Live Location Share Karo</button>
+        <div id="loc-status" style="font-size:12px;color:var(--green);margin-bottom:8px;display:none;"></div>
+      </div>
+
+      <!-- Birthday -->
+      <div class="fg">
+        <label class="flabel">🎂 Birthday Party Order? (Optional)</label>
+        <input class="finput" id="birthday-note" placeholder="Jaise: 50 log, kal shaam 6 baje">
+      </div>
+
+      <div class="cart-box" id="cart-box">
+        <div class="cart-empty">Koi item select nahi kiya</div>
+      </div>
+
+      <div class="fg">
+        <label class="flabel">📛 Naam</label>
+        <input class="finput" id="c-name" placeholder="Aapka naam">
+      </div>
+      <div class="fg">
+        <label class="flabel">📱 WhatsApp Number</label>
+        <input class="finput" type="tel" id="c-phone" placeholder="10 digit number" maxlength="10" oninput="loadCustomerPoints()">
+      </div>
+      <div class="fg">
+        <label class="flabel">🕐 Pickup/Delivery Time</label>
+        <input class="finput" type="time" id="c-time">
+      </div>
+      <div class="fg">
+        <label class="flabel">📝 Special Note</label>
+        <input class="finput" id="c-note" placeholder="Jaise: Zyada chatni dena">
+      </div>
+
+      <button class="btn-main" onclick="placeOrder()">💳 Payment Karo & Order Dalo</button>
+    </div>
+  </div>
+
+  <!-- SUCCESS -->
+  <div class="success-page" id="success-page">
+    <div class="s-emoji">✅</div>
+    <div class="s-title">Order Ho Gaya!</div>
+    <div class="s-msg">Payment verify ho rahi hai...<br>Thodi der mein confirm message aayega!</div>
+    <div class="ticket" id="order-ticket"></div>
+    <a id="wa-link" href="#" class="wa-btn" target="_blank">📲 WhatsApp pe Order Bhejo</a>
+    <button class="btn-ghost" onclick="resetOrder()" style="margin-top:10px;">← Naya Order Karo</button>
+  </div>
+</div>
+
+<!-- PAYMENT MODAL -->
+<div class="modal-wrap" id="pay-modal">
+  <div class="modal">
+    <div class="modal-title">💳 Payment Karo</div>
+    <div class="modal-sub">PhonePe / UPI se pay karo, phir screenshot upload karo</div>
+    <div class="pay-box">
+      <div class="pay-amt" id="pay-amt">₹0</div>
+      <div class="pay-qr">
+        <img src="/mnt/user-data/uploads/1000044188.jpg" alt="PhonePe QR" onerror="this.parentElement.innerHTML='<div style=\'padding:10px;font-size:12px;color:#999;\'>QR Code<br>Dasharath Sah</div>'">
+      </div>
+      <div style="font-size:12px;color:#888;">Ya UPI ID pe bhejo:</div>
+      <div class="pay-upi">9608831820@axl</div>
+    </div>
+    <label class="upload-area" for="ss-input" id="upload-area">
+      <div class="upload-icon">📸</div>
+      <div class="upload-text">Payment screenshot yahan upload karo<br><small>Tap karke photo lo ya gallery se chuno</small></div>
+    </label>
+    <input type="file" id="ss-input" accept="image/*" onchange="handleScreenshot(this)">
+    <div id="ss-preview-wrap" style="display:none;text-align:center;margin-bottom:12px;">
+      <img id="ss-preview-img" class="ss-preview" src="" alt="screenshot">
+      <div style="font-size:12px;color:var(--green);margin-top:4px;font-weight:700;">✅ Screenshot upload ho gaya</div>
+    </div>
+    <button class="btn-green" id="confirm-btn" onclick="confirmOrder()" disabled>✅ Maine Pay Kar Diya — Confirm Karo</button>
+    <button class="btn-ghost" onclick="closeModal()">Cancel</button>
+  </div>
+</div>
+
+<!-- ========== CHAT PAGE ========== -->
+<div class="page" id="page-chat">
+  <div class="chat-header">
+    <div class="chat-avatar">🤖</div>
+    <div class="chat-info">
+      <h3>Samosa AI Assistant</h3>
+      <div class="chat-status">● Online — Hamesha available</div>
+    </div>
+  </div>
+  <div class="quick-replies" id="quick-replies">
+    <button class="qr-btn" onclick="sendQuick('Menu kya hai?')">📋 Menu</button>
+    <button class="qr-btn" onclick="sendQuick('Delivery hogi?')">🛵 Delivery</button>
+    <button class="qr-btn" onclick="sendQuick('Free samosa kab milega?')">🎁 Free Samosa</button>
+    <button class="qr-btn" onclick="sendQuick('Kitna time lagega?')">⏱️ Wait Time</button>
+    <button class="qr-btn" onclick="sendQuick('Birthday party ke liye order karna hai')">🎂 Party Order</button>
+  </div>
+  <div class="chat-msgs" id="chat-msgs"></div>
+  <div class="chat-input-area">
+    <input class="chat-input" id="chat-input" placeholder="Kuch bhi poocho..." onkeydown="if(event.key==='Enter')sendChat()">
+    <button class="chat-send" onclick="sendChat()">➤</button>
+  </div>
+</div>
+
+<!-- ========== KITCHEN PAGE ========== -->
+<div class="page" id="page-kitchen">
+  <div class="kitchen-top">
+    <div>
+      <h2>👨‍🍳 Kitchen — Dasharath Sah</h2>
+      <div style="font-size:11px;color:#888;margin-top:2px;" id="k-date"></div>
+    </div>
+    <div class="live-pill"><div class="live-dot"></div>LIVE</div>
+  </div>
+  <div class="stats-grid">
+    <div class="stat"><div class="stat-n" id="sk-total">0</div><div class="stat-l">Aaj Orders</div></div>
+    <div class="stat"><div class="stat-n" id="sk-pending">0</div><div class="stat-l">Pending</div></div>
+    <div class="stat"><div class="stat-n" id="sk-earn" style="font-size:16px;">₹0</div><div class="stat-l">Kamai</div></div>
+  </div>
+  <div id="kitchen-orders"></div>
+</div>
+
+<!-- ========== ANALYTICS PAGE ========== -->
+<div class="page" id="page-analytics">
+  <div class="analytics-header">
+    <h2>📊 Sales Report</h2>
+    <p id="ana-date"></p>
+  </div>
+  <div class="ana-cards">
+    <div class="ana-card">
+      <div class="ana-num" id="ana-today">₹0</div>
+      <div class="ana-label">Aaj Ki Kamai</div>
+      <div class="ana-sub" id="ana-orders-today">0 orders</div>
+    </div>
+    <div class="ana-card">
+      <div class="ana-num" id="ana-week">₹0</div>
+      <div class="ana-label">Is Hafte</div>
+      <div class="ana-sub" id="ana-orders-week">0 orders</div>
+    </div>
+    <div class="ana-card full">
+      <div style="font-size:14px;font-weight:800;color:var(--deep);margin-bottom:10px;">📅 Pichhle 7 Din</div>
+      <div class="chart-bar-wrap" id="week-chart"></div>
+    </div>
+    <div class="ana-card full">
+      <div style="font-size:14px;font-weight:800;color:var(--deep);margin-bottom:10px;">🏆 Top Items</div>
+      <div id="top-items"></div>
+    </div>
+    <div class="ana-card full">
+      <div style="font-size:14px;font-weight:800;color:var(--deep);margin-bottom:10px;">👥 Regular Customers</div>
+      <div id="top-customers"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ========== ADMIN PAGE ========== -->
+<div class="page" id="page-admin">
+  <!-- Lock Screen -->
+  <div class="admin-lock" id="admin-lock">
+    <div style="font-size:60px;">🔐</div>
+    <h2>Admin Panel</h2>
+    <p>Sirf owner access kar sakta hai</p>
+    <div class="fg" style="max-width:280px;margin:0 auto;">
+      <input class="finput" type="password" id="admin-pass" placeholder="Password daalo" onkeydown="if(event.key==='Enter')adminLogin()">
+    </div>
+    <button class="btn-main" onclick="adminLogin()" style="max-width:280px;margin:10px auto 0;display:block;">🔓 Login</button>
+    <div id="pass-err" style="color:var(--red);font-size:13px;margin-top:8px;"></div>
+  </div>
+
+  <!-- Admin Panel -->
+  <div class="admin-panel" id="admin-panel">
+    <div class="admin-header">
+      <h2>⚙️ Admin Panel</h2>
+      <button class="logout-btn" onclick="adminLogout()">Logout</button>
+    </div>
+
+    <!-- Prices -->
+    <div class="admin-sec">
+      <h3>💰 Price Change Karo</h3>
+      <div id="price-editor"></div>
+      <button class="save-btn" onclick="savePrices()">💾 Prices Save Karo</button>
+    </div>
+
+    <!-- Items Toggle -->
+    <div class="admin-sec">
+      <h3>✅ Item On/Off Karo (Stock nahi hai?)</h3>
+      <div id="stock-editor"></div>
+    </div>
+
+    <!-- Rewards -->
+    <div class="admin-sec">
+      <h3>🎁 Reward Rules Change Karo</h3>
+      <div class="reward-edit-row">
+        <input type="number" id="r25-input"> samosa khaane pe <strong>1 free</strong> samosa
+      </div>
+      <div class="reward-edit-row">
+        <input type="number" id="r50-input"> samosa khaane pe <strong>2 free</strong> samose
+      </div>
+      <button class="save-btn" onclick="saveRewards()">💾 Rewards Save Karo</button>
+    </div>
+
+    <!-- Delivery -->
+    <div class="admin-sec">
+      <h3>🛵 Delivery Settings</h3>
+      <div class="reward-edit-row">
+        Delivery charge: ₹<input type="number" id="del-charge-input" style="width:70px;">
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;margin-top:8px;">
+        <span style="font-size:13px;font-weight:700;color:var(--deep);">Delivery On/Off:</span>
+        <div class="toggle-sw" id="del-toggle" onclick="toggleDelivery()"></div>
+        <span id="del-toggle-label" style="font-size:12px;color:#888;">Band</span>
+      </div>
+      <button class="save-btn" onclick="saveDelivery()">💾 Save Karo</button>
+    </div>
+
+    <!-- Notice -->
+    <div class="admin-sec">
+      <h3>📢 Notice / Offer Banner</h3>
+      <textarea class="notice-area" id="notice-input" placeholder="Jaise: Aaj band hai / Aaj 20% off / Special: 6 samose ₹55 mein"></textarea>
+      <button class="save-btn" onclick="saveNotice()">📢 Banner Lagao</button>
+      <button class="btn-ghost" onclick="clearNotice()" style="margin-top:6px;">❌ Banner Hatao</button>
+    </div>
+
+    <!-- QR Code Section -->
+    <div class="admin-sec">
+      <h3>📱 Website QR Code (Bahar Chipkao)</h3>
+      <div style="background:#fff;border-radius:12px;padding:16px;text-align:center;box-shadow:0 2px 8px rgba(0,0,0,.06);">
+        <div id="qr-code-display" style="margin:0 auto 12px;"></div>
+        <div style="font-size:13px;color:#888;">Yeh QR code scan karke customer seedha website pe aa jaata hai</div>
+        <div style="font-size:11px;color:#bbb;margin-top:6px;">Website host karne ke baad URL daalo:</div>
+        <input class="finput" id="site-url" placeholder="jaise: apnasamosa.netlify.app" style="margin-top:8px;">
+        <button class="save-btn" onclick="genQR()">🔄 QR Generate Karo</button>
+      </div>
+    </div>
+
+    <!-- Customer DB -->
+    <div class="admin-sec">
+      <h3>👥 Customer Database</h3>
+      <div id="cust-db"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ===== CONFIG (Admin se change hoga) =====
+let CFG = JSON.parse(localStorage.getItem('apnasamosa_cfg') || 'null') || {
+  shopName: 'Apna Samosa',
+  wa: '919608831820',
+  upi: '9608831820@axl',
+  timing: 'Shaam 5:00 - Raat 8:00',
+  openH: 17, closeH: 20,
+  deliveryOn: true,
+  deliveryCharge: 50,
+  notice: '',
+  rewards: { r25: 25, r50: 50 },
+  menu: [
+    { id:'s1', name:'Samosa', emoji:'🫔', price:10, pts:1, cat:'samosa', avail:true },
+    { id:'d1', name:'Sprite 750ml', emoji:'🟢', price:45, pts:0, cat:'drink', avail:true },
+    { id:'d2', name:'Sprite 2 Litre', emoji:'🟢', price:100, pts:0, cat:'drink', avail:true },
+    { id:'d3', name:'Maaza 750ml', emoji:'🟠', price:45, pts:0, cat:'drink', avail:true },
+    { id:'d4', name:'Sting', emoji:'⚡', price:20, pts:0, cat:'drink', avail:true },
+    { id:'d5', name:'Coca Cola 750ml', emoji:'🔴', price:45, pts:0, cat:'drink', avail:true },
+  ]
+};
+
+let cart = {};
+let orderType = 'pickup';
+let gpsCoords = null;
+let pendingOrder = null;
+let screenshotData = null;
+let orders = JSON.parse(localStorage.getItem('apnasamosa_orders') || '[]');
+let customers = JSON.parse(localStorage.getItem('apnasamosa_customers') || '{}');
+let chatHistory = [];
+
+// ===== INIT =====
+function init() {
+  checkOpenStatus();
+  showWeather();
+  renderMenu();
+  setDefaultTime();
+  document.getElementById('k-date').textContent = new Date().toLocaleDateString('hi-IN',{weekday:'long',day:'numeric',month:'long'});
+  document.getElementById('ana-date').textContent = new Date().toLocaleDateString('hi-IN',{day:'numeric',month:'long',year:'numeric'});
+  if(CFG.notice) showNotice();
+  renderAdminPrices();
+  updateAnalytics();
+  startChatBot();
+}
+
+// ===== OPEN STATUS =====
+function checkOpenStatus() {
+  const h = new Date().getHours();
+  const isOpen = h >= CFG.openH && h < CFG.closeH;
+  document.getElementById('open-dot').className = 'open-dot ' + (isOpen?'open':'closed');
+  document.getElementById('open-status').textContent = isOpen ? '✅ Abhi Khula Hai! '+CFG.timing : '❌ Abhi Band — '+CFG.timing;
+}
+
+// ===== WEATHER =====
+function showWeather() {
+  const h = new Date().getHours();
+  const msgs = [
+    {icon:'☀️', bg:'#FFF8DC', msg:'Garam din hai... Sting aur thanda Coca Cola ke saath samosa — perfect!'},
+    {icon:'🌅', bg:'#FFE4B5', msg:'Sham ho gayi! Garam samosa ka time aa gaya 🫔'},
+    {icon:'🌙', bg:'#E8EAF6', msg:'Raat ka snack? Samosa order karo aur ghar baithe maza lo!'},
+    {icon:'🌤️', bg:'#E8F5E9', msg:'Mauka hi mauka! Aaj samosa khao, reward points bhi kamao 🎁'},
+  ];
+  const m = h < 12 ? msgs[0] : h < 17 ? msgs[0] : h < 20 ? msgs[1] : msgs[2];
+  const wb = document.getElementById('weather-banner');
+  wb.style.background = m.bg;
+  wb.innerHTML = `<span style="font-size:22px;">${m.icon}</span><span style="color:#555;">${m.msg}</span>`;
+}
+
+// ===== MENU RENDER =====
+function renderMenu() {
+  const samosas = CFG.menu.filter(i=>i.cat==='samosa');
+  const drinks = CFG.menu.filter(i=>i.cat==='drink');
+  document.getElementById('samosa-menu').innerHTML = samosas.map(itemHTML).join('');
+  document.getElementById('drinks-menu').innerHTML = drinks.map(itemHTML).join('');
+}
+
+function itemHTML(item) {
+  return `<div class="mitem ${item.avail?'':'unavail'}" id="mitem-${item.id}">
+    <div class="item-em">${item.emoji}</div>
+    <div class="item-inf">
+      <div class="item-nm">${item.name}${!item.avail?' <span style="color:#e74c3c;font-size:11px;">(Nahi hai)</span>':''}</div>
+      <div class="item-pr">₹${item.price}</div>
+      ${item.pts>0?`<div class="item-pt">+${item.pts} point per samosa</div>`:''}
+    </div>
+    <div class="qc">
+      <button class="qb" onclick="changeQty('${item.id}',-1)">−</button>
+      <div class="qn" id="qn-${item.id}">0</div>
+      <button class="qb" onclick="changeQty('${item.id}',+1)" ${!item.avail?'disabled':''}>+</button>
+    </div>
+  </div>`;
+}
+
+// ===== QTY =====
+function changeQty(id, d) {
+  const item = CFG.menu.find(i=>i.id===id);
+  if(!item.avail && d>0) return;
+  cart[id] = Math.max(0, (cart[id]||0)+d);
+  if(!cart[id]) delete cart[id];
+  document.getElementById('qn-'+id).textContent = cart[id]||0;
+  updateCartUI();
+}
+
+function getTotal() {
+  let t = 0;
+  Object.keys(cart).forEach(id=>{
+    const item = CFG.menu.find(i=>i.id===id);
+    t += item.price * cart[id];
+  });
+  if(orderType==='delivery' && CFG.deliveryOn) t += CFG.deliveryCharge;
+  return t;
+}
+
+function getSamosaCount() {
+  return Object.keys(cart).reduce((s,id)=>{
+    const item = CFG.menu.find(i=>i.id===id);
+    return s + (item.cat==='samosa' ? cart[id] : 0);
+  },0);
+}
+
+function updateCartUI() {
+  const box = document.getElementById('cart-box');
+  const keys = Object.keys(cart);
+  if(!keys.length){ box.innerHTML='<div class="cart-empty">Koi item select nahi kiya</div>'; return; }
+  let html = '';
+  keys.forEach(id=>{
+    const item = CFG.menu.find(i=>i.id===id);
+    html += `<div class="cart-row"><span>${item.emoji} ${item.name} ×${cart[id]}</span><span>₹${item.price*cart[id]}</span></div>`;
+  });
+  if(orderType==='delivery' && CFG.deliveryOn)
+    html += `<div class="cart-row"><span>🛵 Delivery Charge</span><span>₹${CFG.deliveryCharge}</span></div>`;
+  html += `<div class="cart-total"><span>Total</span><span>₹${getTotal()}</span></div>`;
+  box.innerHTML = html;
+}
+
+// ===== ORDER TYPE =====
+function setOrderType(t) {
+  orderType = t;
+  document.getElementById('tog-pickup').className = 'ftog-btn'+(t==='pickup'?' active':'');
+  document.getElementById('tog-delivery').className = 'ftog-btn'+(t==='delivery'?' active':'');
+  document.getElementById('delivery-fields').style.display = t==='delivery'?'block':'none';
+  if(t==='delivery' && !CFG.deliveryOn) {
+    alert('Delivery abhi band hai. Pickup karo ya baad mein try karo.');
+    setOrderType('pickup'); return;
+  }
+  updateCartUI();
+}
+
+// ===== GPS =====
+function getLocation() {
+  if(!navigator.geolocation){ alert('Location support nahi hai'); return; }
+  navigator.geolocation.getCurrentPosition(pos=>{
+    gpsCoords = pos.coords;
+    const s = document.getElementById('loc-status');
+    s.style.display = 'block';
+    s.textContent = `✅ Location mili: ${pos.coords.latitude.toFixed(4)}, ${pos.coords.longitude.toFixed(4)}`;
+    document.getElementById('del-address').value = `GPS: ${pos.coords.latitude.toFixed(5)}, ${pos.coords.longitude.toFixed(5)}`;
+  }, ()=>alert('Location nahi mili. Manually address likhein.'));
+}
+
+// ===== LOYALTY =====
+function loadCustomerPoints() {
+  const ph = document.getElementById('c-phone').value;
+  if(ph.length!==10) return;
+  const c = customers[ph];
+  if(!c) return;
+  const total = c.totalSamosa||0;
+  document.getElementById('loyalty-card').style.display='block';
+  document.getElementById('loy-pts').textContent = total;
+  const r = CFG.rewards;
+  const next = total < r.r25 ? r.r25 : total < r.r50 ? r.r50 : r.r50;
+  const pct = Math.min((total/next)*100, 100);
+  document.getElementById('prog-fill').style.width = pct+'%';
+  document.getElementById('loy-next').textContent = total>=r.r50 ? '🏆 Super Customer!' : `${next-total} aur samose mein reward!`;
+  let chips = '';
+  if(total>=r.r25) chips += '<div class="reward-chip earned">🎁 1 Free Samosa Mila!</div>';
+  if(total>=r.r50) chips += '<div class="reward-chip earned">🎁🎁 2 Free Samose Mile!</div>';
+  document.getElementById('reward-chips').innerHTML = chips;
+}
+
+// ===== PLACE ORDER =====
+function placeOrder() {
+  const name = document.getElementById('c-name').value.trim();
+  const phone = document.getElementById('c-phone').value.trim();
+  const time = document.getElementById('c-time').value;
+  if(!name){ alert('Naam zaroori hai!'); return; }
+  if(phone.length!==10){ alert('Sahi WhatsApp number daalo!'); return; }
+  if(!Object.keys(cart).length){ alert('Koi item select nahi kiya!'); return; }
+  if(orderType==='delivery' && !document.getElementById('del-address').value.trim()){ alert('Delivery address daalo!'); return; }
+
+  const total = getTotal();
+  pendingOrder = {
+    id: Date.now(), name, phone, time, cart:{...cart},
+    total, orderType,
+    address: orderType==='delivery'?document.getElementById('del-address').value:'',
+    gps: gpsCoords ? `${gpsCoords.latitude},${gpsCoords.longitude}` : '',
+    birthday: document.getElementById('birthday-note').value.trim(),
+    note: document.getElementById('c-note').value.trim(),
+    timestamp: new Date().toISOString(),
+    status: 'pending-verify', screenshot: null
+  };
+
+  document.getElementById('pay-amt').textContent = '₹'+total;
+  document.getElementById('pay-modal').classList.add('show');
+}
+
+// ===== SCREENSHOT =====
+function handleScreenshot(input) {
+  const file = input.files[0];
+  if(!file) return;
+  const reader = new FileReader();
+  reader.onload = e => {
+    screenshotData = e.target.result;
+    document.getElementById('ss-preview-img').src = screenshotData;
+    document.getElementById('ss-preview-wrap').style.display = 'block';
+    document.getElementById('upload-area').querySelector('.upload-text').textContent = '✅ Screenshot upload ho gaya!';
+    document.getElementById('confirm-btn').disabled = false;
+  };
+  reader.readAsDataURL(file);
+}
+
+function closeModal() {
+  document.getElementById('pay-modal').classList.remove('show');
+  screenshotData = null;
+  document.getElementById('confirm-btn').disabled = true;
+  document.getElementById('ss-preview-wrap').style.display = 'none';
+}
+
+// ===== CONFIRM ORDER =====
+function confirmOrder() {
+  if(!screenshotData){ alert('Pehle screenshot upload karo!'); return; }
+  pendingOrder.screenshot = screenshotData;
+  orders.push(pendingOrder);
+  localStorage.setItem('apnasamosa_orders', JSON.stringify(orders));
+
+  // Update customer points
+  const ph = pendingOrder.phone;
+  if(!customers[ph]) customers[ph] = {name:pendingOrder.name, phone:ph, totalSamosa:0, totalOrders:0, totalSpent:0};
+  customers[ph].totalSamosa += getSamosaCountFromCart(pendingOrder.cart);
+  customers[ph].totalOrders += 1;
+  customers[ph].totalSpent += pendingOrder.total;
+  localStorage.setItem('apnasamosa_customers', JSON.stringify(customers));
+
+  closeModal();
+  showSuccess(pendingOrder);
+  updateAnalytics();
+}
+
+function getSamosaCountFromCart(c) {
+  return Object.keys(c).reduce((s,id)=>{
+    const item = CFG.menu.find(i=>i.id===id);
+    return s + (item&&item.cat==='samosa' ? c[id] : 0);
+  },0);
+}
+
+// ===== SUCCESS =====
+function showSuccess(order) {
+  document.getElementById('order-main').style.display = 'none';
+  const sp = document.getElementById('success-page');
+  sp.classList.add('show');
+
+  const itemStr = Object.keys(order.cart).map(id=>{
+    const item = CFG.menu.find(i=>i.id===id);
+    return `${item.emoji} ${item.name} ×${order.cart[id]}`;
+  }).join(', ');
+
+  const token = String(order.id).slice(-4);
+  sp.querySelector('.s-msg').innerHTML = `Tumhara Token Number: <br><div class="token-badge">#${token}</div><br>Payment verify hone ke baad WhatsApp message aayega!`;
+
+  document.getElementById('order-ticket').innerHTML = `
+    <div class="t-row"><span>Token</span><span style="color:var(--fire);font-weight:900;">#${token}</span></div>
+    <div class="t-row"><span>Naam</span><span>${order.name}</span></div>
+    <div class="t-row"><span>Order</span><span>${itemStr}</span></div>
+    <div class="t-row"><span>Type</span><span>${order.orderType==='delivery'?'🛵 Delivery':'🏪 Pickup'}</span></div>
+    ${order.address?`<div class="t-row"><span>Address</span><span style="font-size:11px;">${order.address}</span></div>`:''}
+    <div class="t-row"><span>Time</span><span>${order.time}</span></div>
+    <div class="t-row"><span>Total</span><span style="color:var(--green);">₹${order.total} (Pending Verify)</span></div>
+    ${order.birthday?`<div class="t-row"><span>Party</span><span>${order.birthday}</span></div>`:''}
+  `;
+
+  const msg = encodeURIComponent(
+    `🫔 *Apna Samosa — New Order*\n\n`+
+    `Token: #${token}\nNaam: ${order.name}\n`+
+    `Order: ${itemStr}\n`+
+    `Type: ${order.orderType==='delivery'?'Delivery':'Pickup'}\n`+
+    (order.address?`Address: ${order.address}\n`:'')+
+    (order.gps?`GPS: https://maps.google.com/?q=${order.gps}\n`:'')+
+    `Time: ${order.time}\nTotal: ₹${order.total}\n`+
+    (order.birthday?`Party: ${order.birthday}\n`:'')+
+    (order.note?`Note: ${order.note}\n`:'')+
+    `\n⚠️ Payment screenshot bhej raha/rahi hoon.`
+  );
+  document.getElementById('wa-link').href = `https://wa.me/${CFG.wa}?text=${msg}`;
+}
+
+function resetOrder() {
+  cart = {}; pendingOrder = null; screenshotData = null;
+  CFG.menu.forEach(i=>{ const el=document.getElementById('qn-'+i.id); if(el) el.textContent='0'; });
+  document.getElementById('order-main').style.display='block';
+  document.getElementById('success-page').classList.remove('show');
+  document.getElementById('cart-box').innerHTML='<div class="cart-empty">Koi item select nahi kiya</div>';
+  document.getElementById('loyalty-card').style.display='none';
+}
+
+function setDefaultTime() {
+  const t = new Date(); t.setMinutes(t.getMinutes()+25);
+  document.getElementById('c-time').value = t.toTimeString().slice(0,5);
+}
+
+// ===== KITCHEN =====
+function renderKitchen() {
+  const today = orders.filter(o=>new Date(o.timestamp).toDateString()===new Date().toDateString()).reverse();
+  const list = document.getElementById('kitchen-orders');
+
+  const pending = today.filter(o=>o.status!=='done').length;
+  const earn = today.filter(o=>o.status!=='pending-verify').reduce((s,o)=>s+o.total,0);
+  document.getElementById('sk-total').textContent = today.length;
+  document.getElementById('sk-pending').textContent = pending;
+  document.getElementById('sk-earn').textContent = '₹'+earn;
+
+  if(!today.length){
+    list.innerHTML=`<div style="text-align:center;padding:50px 20px;color:#ccc;"><div style="font-size:50px;">🫔</div><p style="margin-top:10px;">Abhi koi order nahi aaya</p></div>`;
+    return;
+  }
+
+  list.innerHTML = today.map(order=>{
+    const items = Object.keys(order.cart).map(id=>{
+      const item = CFG.menu.find(i=>i.id===id);
+      return `<span>${item.emoji} ${item.name} ×${order.cart[id]}</span>`;
+    }).join('');
+
+    const sm = {
+      'pending-verify':['s-verify','🔍 Verify Pending'],
+      'new':['s-new','🆕 New'],
+      'preparing':['s-prep','🔥 Ban Raha'],
+      'ready':['s-ready','✅ Ready'],
+      'done':['s-done','👋 De Diya']
+    };
+    const [sc,sl] = sm[order.status]||sm.new;
+    const t = new Date(order.timestamp).toLocaleTimeString('hi-IN',{hour:'2-digit',minute:'2-digit'});
+    const token = String(order.id).slice(-4);
+
+    let btns = '';
+    if(order.status==='pending-verify') btns=`
+      ${order.screenshot?`<img src="${order.screenshot}" class="ss-preview" onclick="viewSS('${order.id}')"><br><br>`:''}
+      <div class="action-row">
+        <button class="abtn ab-verify" onclick="verifyOrder(${order.id})">✅ Payment Confirm — WhatsApp Bhejo</button>
+      </div>`;
+    else if(order.status==='new') btns=`<div class="action-row"><button class="abtn ab-start" onclick="updateStatus(${order.id},'preparing')">🔥 Banana Shuru</button></div>`;
+    else if(order.status==='preparing') btns=`<div class="action-row"><button class="abtn ab-ready" onclick="updateStatus(${order.id},'ready')">✅ Ready Hai</button></div>`;
+    else if(order.status==='ready') btns=`<div class="action-row"><button class="abtn ab-done" onclick="updateStatus(${order.id},'done')">👋 De Diya</button></div>`;
+
+    return `<div class="ocard ${order.status==='preparing'?'preparing':order.status==='ready'?'ready':order.status==='done'?'done':order.status==='pending-verify'?'pending-verify':''}" id="ocard-${order.id}">
+      <div class="otop">
+        <div>
+          <div class="oname">
+            #${token} — ${order.name}
+            ${order.orderType==='delivery'?'<span class="delivery-badge">🛵 Delivery</span>':''}
+          </div>
+          <div class="ophone">📱 ${order.phone} • ⏰ ${order.time}</div>
+        </div>
+        <div class="ostatus ${sc}">${sl}</div>
+      </div>
+      <div class="oitems">${items}</div>
+      ${order.address?`<div style="font-size:11px;color:#888;margin-bottom:6px;">📍 ${order.address}</div>`:''}
+      ${order.gps?`<a href="https://maps.google.com/?q=${order.gps}" target="_blank" style="font-size:11px;color:var(--saffron);font-weight:700;">🗺️ Map pe dekho</a>`:''}
+      ${order.birthday?`<div style="font-size:11px;color:var(--purple);font-weight:700;margin:4px 0;">🎂 Party: ${order.birthday}</div>`:''}
+      ${order.note?`<div style="font-size:11px;color:#888;margin-bottom:6px;">📝 ${order.note}</div>`:''}
+      <div class="ofooter">
+        <div class="oamt">₹${order.total}</div>
+        <div class="otime">${t}</div>
+      </div>
+      ${btns}
+    </div>`;
+  }).join('');
+}
+
+function viewSS(id) {
+  const o = orders.find(x=>x.id==id);
+  if(o&&o.screenshot) window.open(o.screenshot,'_blank');
+}
+
+function verifyOrder(id) {
+  orders = orders.map(o=>o.id===id?{...o,status:'new'}:o);
+  localStorage.setItem('apnasamosa_orders',JSON.stringify(orders));
+  const o = orders.find(x=>x.id===id);
+  const token = String(id).slice(-4);
+  const itemStr = Object.keys(o.cart).map(iid=>{
+    const item = CFG.menu.find(i=>i.id===iid);
+    return `${item.emoji} ${item.name} ×${o.cart[iid]}`;
+  }).join(', ');
+  const msg = encodeURIComponent(
+    `✅ *Apna Samosa — Order Confirm!*\n\n`+
+    `Aapka order confirm ho gaya hai! 🎉\n\n`+
+    `Token: *#${token}*\nNaam: ${o.name}\nOrder: ${itemStr}\n`+
+    (o.orderType==='delivery'?`🛵 Delivery: ${o.address}\n`:`🏪 Pickup: Lachhipur, Sajani Tomakey School ke paas\n`)+
+    `Time: ${o.time}\nTotal: ₹${o.total} ✅ Paid\n\n`+
+    `Shukriya! 🫔 Apna Samosa`
+  );
+  window.open(`https://wa.me/91${o.phone}?text=${msg}`,'_blank');
+  renderKitchen();
+}
+
+function updateStatus(id, status) {
+  orders = orders.map(o=>o.id===id?{...o,status}:o);
+  localStorage.setItem('apnasamosa_orders',JSON.stringify(orders));
+  if(status==='ready') {
+    const o = orders.find(x=>x.id===id);
+    const token = String(id).slice(-4);
+    const msg = encodeURIComponent(`🫔 *Apna Samosa*\n\nAapka order *READY* hai! 🎉\nToken: *#${token}*\n${o.orderType==='pickup'?'Aa jaiye pickup karne!':'Delivery nikli! Thodi der mein pahuch jaayega!'}`);
+    window.open(`https://wa.me/91${o.phone}?text=${msg}`,'_blank');
+  }
+  renderKitchen();
+}
+
+// ===== ANALYTICS =====
+function updateAnalytics() {
+  const now = new Date();
+  const todayStr = now.toDateString();
+  const todayOrders = orders.filter(o=>new Date(o.timestamp).toDateString()===todayStr&&o.status!=='pending-verify');
+  const weekOrders = orders.filter(o=>{
+    const d = new Date(o.timestamp);
+    return (now-d)<7*24*3600*1000 && o.status!=='pending-verify';
+  });
+
+  document.getElementById('ana-today').textContent = '₹'+todayOrders.reduce((s,o)=>s+o.total,0);
+  document.getElementById('ana-orders-today').textContent = todayOrders.length+' orders';
+  document.getElementById('ana-week').textContent = '₹'+weekOrders.reduce((s,o)=>s+o.total,0);
+  document.getElementById('ana-orders-week').textContent = weekOrders.length+' orders';
+
+  // Week chart
+  const days = [];
+  for(let i=6;i>=0;i--){
+    const d = new Date(); d.setDate(d.getDate()-i);
+    const ds = d.toDateString();
+    const amt = orders.filter(o=>new Date(o.timestamp).toDateString()===ds&&o.status!=='pending-verify').reduce((s,o)=>s+o.total,0);
+    days.push({label:['Sun','Mon','Tue','Wed','Thu','Fri','Sat'][d.getDay()], amt});
+  }
+  const maxAmt = Math.max(...days.map(d=>d.amt),1);
+  document.getElementById('week-chart').innerHTML = days.map(d=>`
+    <div class="chart-row">
+      <div class="chart-label">${d.label}</div>
+      <div class="chart-bar-bg"><div class="chart-bar-fill" style="width:${(d.amt/maxAmt)*100}%"></div></div>
+      <div class="chart-val">₹${d.amt}</div>
+    </div>`).join('');
+
+  // Top items
+  const itemCounts = {};
+  orders.filter(o=>o.status!=='pending-verify').forEach(o=>{
+    Object.keys(o.cart).forEach(id=>{
+      itemCounts[id] = (itemCounts[id]||0)+o.cart[id];
+    });
+  });
+  const sorted = Object.entries(itemCounts).sort((a,b)=>b[1]-a[1]).slice(0,5);
+  const ranks = ['🥇','🥈','🥉','4️⃣','5️⃣'];
+  document.getElementById('top-items').innerHTML = sorted.length?sorted.map(([id,cnt],i)=>{
+    const item = CFG.menu.find(x=>x.id===id);
+    return `<div class="top-item"><div class="top-rank">${ranks[i]}</div><div class="top-name">${item?item.emoji+' '+item.name:'?'}</div><div class="top-cnt">${cnt} sold</div></div>`;
+  }).join(''):'<div style="color:#ccc;font-size:13px;">Abhi koi order nahi aaya</div>';
+
+  // Top customers
+  const topC = Object.values(customers).sort((a,b)=>b.totalOrders-a.totalOrders).slice(0,5);
+  document.getElementById('top-customers').innerHTML = topC.length?topC.map((c,i)=>`
+    <div class="top-item"><div class="top-rank">${ranks[i]}</div><div class="top-name">${c.name}<br><span style="font-size:10px;color:#999;">${c.phone}</span></div><div class="top-cnt">${c.totalOrders} orders<br><span style="font-size:11px;color:var(--green);">${c.totalSamosa} 🫔</span></div></div>
+  `).join(''):'<div style="color:#ccc;font-size:13px;">Abhi koi customer nahi hai</div>';
+}
+
+// ===== AI CHATBOT =====
+function startChatBot() {
+  const msgs = document.getElementById('chat-msgs');
+  addBotMsg('Namaste! 🫔 Main Apna Samosa ka AI assistant hoon! Menu, delivery, prices, rewards — kuch bhi poochho Hindi mein!');
+}
+
+function addBotMsg(text) {
+  const msgs = document.getElementById('chat-msgs');
+  const t = new Date().toLocaleTimeString('hi-IN',{hour:'2-digit',minute:'2-digit'});
+  msgs.innerHTML += `<div class="msg bot"><div class="msg-bubble">${text}</div><div class="msg-time">${t}</div></div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function addUserMsg(text) {
+  const msgs = document.getElementById('chat-msgs');
+  const t = new Date().toLocaleTimeString('hi-IN',{hour:'2-digit',minute:'2-digit'});
+  msgs.innerHTML += `<div class="msg user"><div class="msg-bubble">${text}</div><div class="msg-time">${t}</div></div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function showTyping() {
+  const msgs = document.getElementById('chat-msgs');
+  msgs.innerHTML += `<div class="msg bot" id="typing-indicator"><div class="typing"><span></span><span></span><span></span></div></div>`;
+  msgs.scrollTop = msgs.scrollHeight;
+}
+
+function removeTyping() {
+  const t = document.getElementById('typing-indicator');
+  if(t) t.remove();
+}
+
+async function sendChat() {
+  const input = document.getElementById('chat-input');
+  const text = input.value.trim();
+  if(!text) return;
+  input.value = '';
+  addUserMsg(text);
+  chatHistory.push({role:'user', content:text});
+  showTyping();
+
+  const menuText = CFG.menu.map(i=>`${i.name}: ₹${i.price}${!i.avail?' (unavailable)':''}`).join(', ');
+  const pending = orders.filter(o=>new Date(o.timestamp).toDateString()===new Date().toDateString()&&o.status!=='done').length;
+
+  const systemPrompt = `Tu Apna Samosa dukan ka Hindi AI assistant hai. Dukan Jamui, Bihar mein hai - Lachhipur, Sajani Tomakey School ke paas.
+
+MENU: ${menuText}
+Delivery: ${CFG.deliveryOn?'Haan, ₹'+CFG.deliveryCharge:'Abhi band'}
+Timing: ${CFG.timing}
+Reward: ${CFG.rewards.r25} samose = 1 free samosa, ${CFG.rewards.r50} samose = 2 free samose
+Abhi queue: ${pending} orders pending
+Owner: Dasharath Sah
+
+Sirf Hindi mein jawab de. Short aur helpful reh. Agar order karna ho to Order tab pe jaane bol. Agar koi bakwaas kare to politely mana kar.`;
+
+  try {
+    const response = await fetch('https://api.anthropic.com/v1/messages',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
+      body: JSON.stringify({
+        model:'claude-sonnet-4-20250514',
+        max_tokens:1000,
+        system: systemPrompt,
+        messages: chatHistory
+      })
+    });
+    const data = await response.json();
+    removeTyping();
+    const reply = data.content?.[0]?.text || 'Kuch gadbad hui, dobara try karo!';
+    chatHistory.push({role:'assistant', content:reply});
+    addBotMsg(reply);
+  } catch(e) {
+    removeTyping();
+    addBotMsg('Abhi AI jawab nahi de pa raha. Menu ke liye: Samosa ₹10, Drinks ₹20-100. Delivery ₹50.');
+  }
+}
+
+function sendQuick(text) {
+  document.getElementById('chat-input').value = text;
+  sendChat();
+}
+
+// ===== ADMIN =====
+function adminLogin() {
+  const p = document.getElementById('admin-pass').value;
+  if(p === CFG.password || p === 'multivers') {
+    document.getElementById('admin-lock').style.display='none';
+    document.getElementById('admin-panel').classList.add('unlocked');
+    renderAdminPrices();
+    renderAdminStock();
+    renderAdminRewards();
+    renderAdminDelivery();
+    renderCustomerDB();
+    if(CFG.notice) document.getElementById('notice-input').value=CFG.notice;
+  } else {
+    document.getElementById('pass-err').textContent='❌ Galat password!';
+  }
+}
+
+function adminLogout() {
+  document.getElementById('admin-lock').style.display='block';
+  document.getElementById('admin-panel').classList.remove('unlocked');
+  document.getElementById('admin-pass').value='';
+}
+
+function renderAdminPrices() {
+  document.getElementById('price-editor').innerHTML = CFG.menu.map(item=>`
+    <div class="edit-item-row">
+      <div class="name">${item.emoji} ${item.name}</div>
+      <span style="font-size:13px;color:#888;">₹</span>
+      <input class="edit-price-input" type="number" id="price-${item.id}" value="${item.price}" min="1">
+    </div>`).join('');
+}
+
+function renderAdminStock() {
+  document.getElementById('stock-editor').innerHTML = CFG.menu.map(item=>`
+    <div class="edit-item-row">
+      <div class="name">${item.emoji} ${item.name}</div>
+      <div class="toggle-sw ${item.avail?'on':''}" id="sw-${item.id}" onclick="toggleStock('${item.id}')"></div>
+      <span id="sw-label-${item.id}" style="font-size:12px;color:#888;">${item.avail?'Available':'Band'}</span>
+    </div>`).join('');
+}
+
+function toggleStock(id) {
+  const item = CFG.menu.find(i=>i.id===id);
+  item.avail = !item.avail;
+  const sw = document.getElementById('sw-'+id);
+  const lb = document.getElementById('sw-label-'+id);
+  sw.className = 'toggle-sw'+(item.avail?' on':'');
+  lb.textContent = item.avail?'Available':'Band';
+  saveCFG();
+  renderMenu();
+}
+
+function savePrices() {
+  CFG.menu.forEach(item=>{
+    const inp = document.getElementById('price-'+item.id);
+    if(inp) item.price = parseInt(inp.value)||item.price;
+  });
+  saveCFG();
+  renderMenu();
+  alert('✅ Prices save ho gayi!');
+}
+
+function renderAdminRewards() {
+  document.getElementById('r25-input').value = CFG.rewards.r25;
+  document.getElementById('r50-input').value = CFG.rewards.r50;
+}
+
+function saveRewards() {
+  CFG.rewards.r25 = parseInt(document.getElementById('r25-input').value)||25;
+  CFG.rewards.r50 = parseInt(document.getElementById('r50-input').value)||50;
+  saveCFG();
+  alert('✅ Reward rules save ho gayi!');
+}
+
+function renderAdminDelivery() {
+  document.getElementById('del-charge-input').value = CFG.deliveryCharge;
+  const tog = document.getElementById('del-toggle');
+  tog.className = 'toggle-sw'+(CFG.deliveryOn?' on':'');
+  document.getElementById('del-toggle-label').textContent = CFG.deliveryOn?'Chalu':'Band';
+}
+
+function toggleDelivery() {
+  CFG.deliveryOn = !CFG.deliveryOn;
+  renderAdminDelivery();
+}
+
+function saveDelivery() {
+  CFG.deliveryCharge = parseInt(document.getElementById('del-charge-input').value)||50;
+  saveCFG();
+  alert('✅ Delivery settings save ho gayi!');
+}
+
+function saveNotice() {
+  CFG.notice = document.getElementById('notice-input').value.trim();
+  saveCFG();
+  showNotice();
+  alert('✅ Banner lag gaya!');
+}
+
+function clearNotice() {
+  CFG.notice = '';
+  saveCFG();
+  document.getElementById('notice-bar').classList.remove('show');
+  document.getElementById('notice-input').value='';
+}
+
+function showNotice() {
+  if(!CFG.notice) return;
+  const nb = document.getElementById('notice-bar');
+  nb.textContent = '📢 '+CFG.notice;
+  nb.classList.add('show');
+}
+
+function genQR() {
+  const url = document.getElementById('site-url').value.trim();
+  if(!url){ alert('Pehle website URL daalo!'); return; }
+  const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${encodeURIComponent('https://'+url)}`;
+  document.getElementById('qr-code-display').innerHTML = `
+    <img src="${qrUrl}" style="width:200px;height:200px;border-radius:12px;border:4px solid var(--saffron);" alt="QR Code">
+    <div style="margin-top:8px;font-size:12px;color:var(--green);font-weight:700;">✅ QR Ready — Screenshot lo aur print karo!</div>`;
+}
+
+function renderCustomerDB() {
+  const list = Object.values(customers).sort((a,b)=>b.totalOrders-a.totalOrders);
+  document.getElementById('cust-db').innerHTML = list.length ? list.map(c=>`
+    <div class="edit-item-row" style="flex-direction:column;align-items:flex-start;gap:4px;">
+      <div style="font-weight:800;color:var(--deep);">${c.name} — ${c.phone}</div>
+      <div style="font-size:12px;color:#888;">Orders: ${c.totalOrders} • Samose: ${c.totalSamosa} 🫔 • Spent: ₹${c.totalSpent}</div>
+      ${c.totalSamosa>=CFG.rewards.r50?'<div style="font-size:11px;color:var(--green);font-weight:700;">🏆 2 Free Samose Eligible!</div>':c.totalSamosa>=CFG.rewards.r25?'<div style="font-size:11px;color:var(--saffron);font-weight:700;">🎁 1 Free Samosa Eligible!</div>':''}
+    </div>`).join('')
+  : '<div style="color:#ccc;font-size:13px;">Abhi koi customer database mein nahi hai</div>';
+}
+
+function saveCFG() {
+  localStorage.setItem('apnasamosa_cfg', JSON.stringify(CFG));
+}
+
+// ===== PAGE NAV =====
+function goPage(page, btn) {
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nb').forEach(b=>b.classList.remove('active'));
+  document.getElementById('page-'+page).classList.add('active');
+  btn.classList.add('active');
+  if(page==='kitchen') renderKitchen();
+  if(page==='analytics') updateAnalytics();
+  if(page==='admin') { renderAdminPrices(); renderCustomerDB(); }
+  if(page==='chat' && !chatHistory.length) startChatBot();
+}
+
+// Init
+init();
+</script>
+</body>
+</html>
